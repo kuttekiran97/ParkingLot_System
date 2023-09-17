@@ -9,6 +9,7 @@ import lombok.Setter;
 public class GenerateTicketReponseDto {
     private Ticket ticket;
     private ResponseStatus responseStatus;
+    private String failureMessage;
 
 
 }

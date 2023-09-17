@@ -2,6 +2,8 @@ package com.scaler.ParkingLot.Controllers;
 
 import com.scaler.ParkingLot.DTOs.GenerateTicketReponseDto;
 import com.scaler.ParkingLot.DTOs.GenerateTicketRequestDto;
+import com.scaler.ParkingLot.DTOs.ResponseStatus;
+import com.scaler.ParkingLot.Exceptions.NoParkingSpotFoundException;
 import com.scaler.ParkingLot.Models.Ticket;
 import com.scaler.ParkingLot.Services.TicketService;
 import lombok.Getter;
@@ -14,12 +16,28 @@ public class TicketController {
     private TicketService ticketService;
     public GenerateTicketReponseDto generateTicket(GenerateTicketRequestDto generateTicketRequestDto){
 
+        try{
+            Ticket ticket = ticketService.generateTicket(generateTicketRequestDto.getGateId(),
+                                                            generateTicketRequestDto.getVehicleNumber(),
+                                                            generateTicketRequestDto.getVehicleType());
 
-        Ticket ticket = ticketService.generateTicket(generateTicketRequestDto.getGateId(),
-                                                        generateTicketRequestDto.getVehicleNumber(),
-                                                        generateTicketRequestDto.getVehicleType());
+            GenerateTicketReponseDto generateTicketReponseDto = new GenerateTicketReponseDto();
+            generateTicketReponseDto.setTicket(ticket);
+            generateTicketReponseDto.setResponseStatus(ResponseStatus.SUCCESS);
 
-        return null;
+            return generateTicketReponseDto;
+
+        } catch (NoParkingSpotFoundException e){
+            GenerateTicketReponseDto generateTicketReponseDto = new GenerateTicketReponseDto();
+
+
+            generateTicketReponseDto.setResponseStatus(ResponseStatus.FAILURE);
+            generateTicketReponseDto.setFailureMessage(e.getMessage());
+
+            return generateTicketReponseDto;
+
+
+        }
 
     }
 }

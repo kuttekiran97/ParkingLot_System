@@ -1,5 +1,6 @@
 package com.scaler.ParkingLot.Services;
 
+import com.scaler.ParkingLot.Exceptions.NoParkingSpotFoundException;
 import com.scaler.ParkingLot.Models.*;
 import com.scaler.ParkingLot.Repositories.TicketRepository;
 import com.scaler.ParkingLot.Strategy.SpotAssignmentStrategy;
@@ -17,7 +18,7 @@ public class TicketService {
     private SpotAssignmentStrategy spotAssignmentStrategy;
 
     private ParkingLotService parkingLotService;
-    public Ticket generateTicket(long gateId, String vehicleNumber, VehicleType vehicleType) {
+    public Ticket generateTicket(long gateId, String vehicleNumber, VehicleType vehicleType) throws NoParkingSpotFoundException {
 
         //Flow :
         //1. Get the Vehicle from DB using vehicleNumber (in our case ,we are using hashmap as DB )
@@ -33,8 +34,12 @@ public class TicketService {
 
         ParkingSpot parkingSpot = parkingLotService.getparkingSpot(vehicle, gate);
 
+        if(parkingSpot==null){
+            throw new NoParkingSpotFoundException("No ParkingSpot Found");
+        }
+
         //4. Update the Parking spot as Occupied
-        ParkingSpot parkingSpot = parkingSpotService.assignParkingSpot(parkingSpot);
+        parkingSpot = parkingSpotService.assignParkingSpot(parkingSpot);
 
         //5. Generate the ticket
         Ticket ticket = new Ticket();
