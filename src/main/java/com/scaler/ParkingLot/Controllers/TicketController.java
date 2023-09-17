@@ -14,6 +14,11 @@ import lombok.Setter;
 public class TicketController {
 
     private TicketService ticketService;
+
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
+    }
+
     public GenerateTicketReponseDto generateTicket(GenerateTicketRequestDto generateTicketRequestDto){
 
         try{
