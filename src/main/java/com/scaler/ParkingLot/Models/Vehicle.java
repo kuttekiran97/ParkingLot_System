@@ -9,4 +9,9 @@ public class Vehicle extends BaseModel{
 
     private VehicleType vehicleType;
     private String number;
+
+    public Vehicle(VehicleType vehicleType, String number) {
+        this.vehicleType = vehicleType;
+        this.number = number;
+    }
 }

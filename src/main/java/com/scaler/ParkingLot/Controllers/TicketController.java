@@ -19,7 +19,7 @@ public class TicketController {
                                                         generateTicketRequestDto.getVehicleNumber(),
                                                         generateTicketRequestDto.getVehicleType());
 
-
+        return null;
 
     }
 }

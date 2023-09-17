@@ -1,0 +1,19 @@
+package com.scaler.ParkingLot.Repositories;
+
+import com.scaler.ParkingLot.Models.Ticket;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TicketRepository {
+
+    Map<Long,Ticket> ticketStore;
+
+    public TicketRepository(){
+        this.ticketStore= new HashMap<>();
+    }
+
+    public void save(Ticket ticket){
+        ticketStore.put(ticket.getId(),ticket);
+    }
+}
